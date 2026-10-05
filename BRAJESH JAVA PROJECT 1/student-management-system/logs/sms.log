@@ -1,0 +1,13 @@
+2026-10-05 11:29:48.524 [SwingWorker-pool-1-thread-1] INFO  com.sms.util.DBConnection - Initialising HikariCP pool — URL: jdbc:mysql://localhost:3306/sms_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+2026-10-05 11:36:48.405 [SwingWorker-pool-1-thread-1] INFO  com.sms.util.DBConnection - Initialising HikariCP pool — URL: jdbc:mysql://localhost:3306/sms_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+2026-10-05 11:37:24.815 [sms-shutdown] INFO  com.sms.Main - Shutdown hook: closing DB pool.
+2026-10-05 11:37:24.817 [sms-shutdown] INFO  com.sms.util.DBConnection - Shutting down HikariCP connection pool.
+2026-10-05 11:56:31.393 [main] INFO  com.sms.web.WebServer - SMS Web Server started on http://localhost:8080/
+2026-10-05 11:56:33.283 [SwingWorker-pool-1-thread-1] INFO  com.sms.util.DBConnection - Initialising HikariCP pool — URL: jdbc:mysql://localhost:3306/sms_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+2026-10-05 12:18:05.885 [SMS-Pool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - SMS-Pool - Thread starvation or clock leap detected (housekeeper delta=3m615ms545µs400ns).
+2026-10-05 12:33:25.100 [virtual-146] INFO  com.sms.dao.StudentDAOImpl - Inserted student: CS1112299
+2026-10-05 12:33:25.197 [virtual-146] INFO  com.sms.service.StudentService - Student added: CS1112299
+2026-10-05 13:18:09.314 [SMS-Pool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - SMS-Pool - Thread starvation or clock leap detected (housekeeper delta=32m2s888ms637µs400ns).
+2026-10-05 14:03:11.990 [SMS-Pool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - SMS-Pool - Thread starvation or clock leap detected (housekeeper delta=30m32s417ms168µs100ns).
+2026-10-05 14:27:07.214 [SMS-Pool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - SMS-Pool - Thread starvation or clock leap detected (housekeeper delta=8m24s964ms495µs300ns).
+2026-10-05 15:04:03.040 [SMS-Pool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - SMS-Pool - Thread starvation or clock leap detected (housekeeper delta=26m55s677ms708µs400ns).

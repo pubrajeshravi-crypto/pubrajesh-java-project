@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management System | Dashboard</title>
+  <meta name="description" content="Production-grade modern student management system dashboard with real-time analytics, filtering, and instant record updates.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><path d='M12 3L1 9l11 6 9-4.91V17h2V9L12 3z M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z'/></svg>">
+</head>
+<body class="theme-dark">
+  <div id="app" class="dashboard-wrapper">
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <div class="nav-brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>EduPulse SMS</h1>
+          <span class="brand-subtitle">Student Management System</span>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <div class="status-indicator-badge" id="systemStatusBadge" title="MySQL Database Connection">
+          <span class="status-dot pulse"></span>
+          <span class="status-text">MySQL: <strong id="dbStatusText">Connected (sms_db)</strong></span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button id="themeToggleBtn" class="btn btn-icon" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <a href="/api/export" class="btn btn-secondary" id="exportBtn" title="Export all students to CSV">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export CSV</span>
+        </a>
+
+        <button id="addStudentBtn" class="btn btn-primary" title="Add New Student">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Add Student</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+      <!-- Metric KPI Cards -->
+      <section class="kpi-grid">
+        <div class="kpi-card glassmorphic">
+          <div class="kpi-icon-wrapper icon-purple">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Total Enrolled</span>
+            <div class="kpi-value-row">
+              <h2 class="kpi-value" id="kpiTotalStudents">--</h2>
+              <span class="kpi-badge badge-active">Active</span>
+            </div>
+            <span class="kpi-subtext">Across 6 academic disciplines</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glassmorphic">
+          <div class="kpi-icon-wrapper icon-emerald">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Average Score</span>
+            <div class="kpi-value-row">
+              <h2 class="kpi-value" id="kpiAvgMarks">--%</h2>
+              <span class="kpi-badge badge-success" id="kpiPassRate">--% Pass</span>
+            </div>
+            <div class="kpi-progress-bar">
+              <div class="progress-fill" id="kpiAvgBar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card glassmorphic">
+          <div class="kpi-icon-wrapper icon-amber">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Top Achiever</span>
+            <div class="kpi-value-row">
+              <h2 class="kpi-value truncate" id="kpiTopScorerName">--</h2>
+            </div>
+            <span class="kpi-subtext" id="kpiTopScorerDetail">No records yet</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glassmorphic">
+          <div class="kpi-icon-wrapper icon-blue">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">System Health</span>
+            <div class="kpi-value-row">
+              <h2 class="kpi-value text-success">100% OK</h2>
+              <span class="kpi-badge badge-info">Port 8080</span>
+            </div>
+            <span class="kpi-subtext">HikariCP Pool: Active</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filter & Controls Section -->
+      <section class="controls-panel glassmorphic">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search students by name (real-time filter)..." autocomplete="off">
+          <button id="clearSearchBtn" class="clear-search-btn" title="Clear search" style="display: none;">&times;</button>
+        </div>
+
+        <div class="filter-group">
+          <div class="branch-pill-group" id="branchPills">
+            <button class="branch-pill active" data-branch="ALL">All Branches</button>
+            <button class="branch-pill" data-branch="CSE">CSE</button>
+            <button class="branch-pill" data-branch="ECE">ECE</button>
+            <button class="branch-pill" data-branch="ME">ME</button>
+            <button class="branch-pill" data-branch="CE">CE</button>
+            <button class="branch-pill" data-branch="EE">EE</button>
+            <button class="branch-pill" data-branch="IT">IT</button>
+          </div>
+
+          <div class="select-wrapper">
+            <select id="yearSelect" aria-label="Filter by academic year">
+              <option value="0">All Years (1–4)</option>
+              <option value="1">1st Year</option>
+              <option value="2">2nd Year</option>
+              <option value="3">3rd Year</option>
+              <option value="4">4th Year</option>
+            </select>
+          </div>
+
+          <button id="refreshBtn" class="btn btn-secondary btn-icon-only" title="Refresh Table">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Main Data Table Panel -->
+      <section class="table-container glassmorphic">
+        <div class="table-header-bar">
+          <div class="table-title-area">
+            <h3>Registered Students</h3>
+            <span class="count-badge" id="studentCountBadge">0 records</span>
+          </div>
+          <div class="table-legend">
+            <span class="legend-item"><span class="grade-dot grade-a"></span> A (80+)</span>
+            <span class="legend-item"><span class="grade-dot grade-b"></span> B (65-79)</span>
+            <span class="legend-item"><span class="grade-dot grade-c"></span> C (50-64)</span>
+            <span class="legend-item"><span class="grade-dot grade-f"></span> F (&lt;40)</span>
+          </div>
+        </div>
+
+        <div class="responsive-table-wrapper">
+          <table class="data-table" id="studentsTable">
+            <thead>
+              <tr>
+                <th data-sort="id">Student ID <span class="sort-icon">&#x21C5;</span></th>
+                <th data-sort="name">Full Name <span class="sort-icon">&#x21C5;</span></th>
+                <th data-sort="branch">Branch <span class="sort-icon">&#x21C5;</span></th>
+                <th data-sort="year">Year <span class="sort-icon">&#x21C5;</span></th>
+                <th data-sort="phone">Phone <span class="sort-icon">&#x21C5;</span></th>
+                <th data-sort="marks">Marks (%) <span class="sort-icon">&#x21C5;</span></th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+              <!-- Rendered via JavaScript -->
+              <tr>
+                <td colspan="7" class="loading-state">
+                  <div class="spinner"></div>
+                  <span>Loading students from MySQL database...</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+          <h4>No students match your filter</h4>
+          <p>Try modifying your search criteria or add a new student record.</p>
+          <button class="btn btn-primary" onclick="openAddStudentModal()">+ Add New Student</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+      <span>Student Management System &bull; Java 21 &bull; FlatLaf &bull; MySQL 8 / MariaDB &bull; Port 8080</span>
+      <div class="footer-links">
+        <a href="/api/health" target="_blank">API Health</a>
+        <span class="sep">&bull;</span>
+        <a href="/api/export">Download CSV</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Student Form Modal (Add / Edit) -->
+  <div id="studentModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-container glassmorphic">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon-badge" id="modalIconBadge">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </div>
+          <div>
+            <h3 id="modalTitle">Add New Student</h3>
+            <span class="modal-subtitle" id="modalSubtitle">Create an official university enrollment entry</span>
+          </div>
+        </div>
+        <button id="closeModalBtn" class="modal-close-btn" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <form id="studentForm" novalidate>
+        <div class="form-grid">
+          <!-- Student ID -->
+          <div class="form-group" id="groupStudentId">
+            <label for="inputStudentId">Student ID <span class="required">*</span></label>
+            <div class="input-icon-wrap">
+              <input type="text" id="inputStudentId" placeholder="e.g. CS2021001" required maxlength="20">
+              <span class="field-hint">2-4 letters followed by 7 digits</span>
+            </div>
+            <span class="error-msg" id="errorStudentId"></span>
+          </div>
+
+          <!-- Full Name -->
+          <div class="form-group" id="groupName">
+            <label for="inputName">Full Name <span class="required">*</span></label>
+            <input type="text" id="inputName" placeholder="e.g. Aarav Sharma" required maxlength="100">
+            <span class="error-msg" id="errorName"></span>
+          </div>
+
+          <!-- Branch -->
+          <div class="form-group" id="groupBranch">
+            <label for="selectBranch">Academic Branch <span class="required">*</span></label>
+            <select id="selectBranch" required>
+              <option value="" disabled selected>Select Branch</option>
+              <option value="CSE">CSE — Computer Science & Engineering</option>
+              <option value="ECE">ECE — Electronics & Communication</option>
+              <option value="ME">ME — Mechanical Engineering</option>
+              <option value="CE">CE — Civil Engineering</option>
+              <option value="EE">EE — Electrical Engineering</option>
+              <option value="IT">IT — Information Technology</option>
+            </select>
+            <span class="error-msg" id="errorBranch"></span>
+          </div>
+
+          <!-- Academic Year -->
+          <div class="form-group" id="groupYear">
+            <label for="selectYear">Academic Year <span class="required">*</span></label>
+            <select id="selectYear" required>
+              <option value="1">1st Year (Freshman)</option>
+              <option value="2">2nd Year (Sophomore)</option>
+              <option value="3">3rd Year (Junior)</option>
+              <option value="4">4th Year (Senior)</option>
+            </select>
+            <span class="error-msg" id="errorYear"></span>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="form-group" id="groupPhone">
+            <label for="inputPhone">Phone Number <span class="required">*</span></label>
+            <input type="tel" id="inputPhone" placeholder="10-digit mobile number" required maxlength="10">
+            <span class="field-hint">Exactly 10 digits (unique)</span>
+            <span class="error-msg" id="errorPhone"></span>
+          </div>
+
+          <!-- Marks -->
+          <div class="form-group" id="groupMarks">
+            <label for="inputMarks">Aggregate Marks (%) <span class="required">*</span></label>
+            <input type="number" id="inputMarks" placeholder="0.00 – 100.00" step="0.01" min="0" max="100" required>
+            <span class="field-hint">Range: 0.00 to 100.00</span>
+            <span class="error-msg" id="errorMarks"></span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="cancelModalBtn" class="btn btn-secondary">Cancel</button>
+          <button type="submit" id="saveStudentBtn" class="btn btn-primary">
+            <span class="btn-spinner" style="display:none;"></span>
+            <span class="btn-text">Save Student</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-container modal-small glassmorphic">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon-badge badge-danger">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </div>
+          <div>
+            <h3>Confirm Deletion</h3>
+            <span class="modal-subtitle">This action cannot be undone</span>
+          </div>
+        </div>
+        <button id="closeDeleteModalBtn" class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="delete-modal-body">
+        <p>Are you sure you want to permanently delete this student record from MySQL?</p>
+        <div class="student-delete-preview" id="deleteStudentPreview">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelDeleteBtn" class="btn btn-secondary">Cancel</button>
+        <button type="button" id="confirmDeleteBtn" class="btn btn-danger">
+          <span class="btn-spinner" style="display:none;"></span>
+          <span>Delete Permanently</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

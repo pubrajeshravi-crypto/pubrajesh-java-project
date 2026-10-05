@@ -1,0 +1,13 @@
+# Database connection — copy this file to config.properties and fill in real values.
+# config.properties is gitignored; never commit it.
+
+db.url=jdbc:mysql://localhost:3306/sms_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+db.username=root
+db.password=YOUR_PASSWORD_HERE
+
+# HikariCP pool settings
+db.pool.maximumPoolSize=10
+db.pool.minimumIdle=2
+db.pool.connectionTimeout=30000
+db.pool.idleTimeout=600000
+db.pool.maxLifetime=1800000
